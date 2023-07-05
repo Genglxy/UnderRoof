@@ -9,17 +9,26 @@
         android:id="@+id/navigation_home"
         android:name="com.genglxy.underroof.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/openCreateGroupDialog"
+            app:destination="@id/createGroupDialog" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.genglxy.underroof.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_contact"
+        android:name="com.genglxy.underroof.ui.contact.ContactFragment"
+        android:label="@string/title_contact"
+        tools:layout="@layout/fragment_contact" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.genglxy.underroof.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_user"
+        android:name="com.genglxy.underroof.ui.user.UserFragment"
+        android:label="@string/title_user"
+        tools:layout="@layout/fragment_user" />
+    <dialog
+        android:id="@+id/createGroupDialog"
+        android:name="com.genglxy.underroof.ui.home.CreateGroupDialog"
+        android:label="CreateGroupDialog"
+        tools:layout="@layout/dialog_create_group" />
 </navigation>

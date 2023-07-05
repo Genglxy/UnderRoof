@@ -3,4 +3,17 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="no_message_yet">No message yet.</string>
+    <string name="title_contact">Contact</string>
+    <string name="title_user">User</string>
+    <string name="join_chat">%1$s has joined the chat.</string>
+    <string name="quit_chat">%1$s has quit the chat.</string>
+    <string name="unknown_system_msg">Unknown system message.</string>
+    <string name="refresh">Refresh</string>
+    <string name="create_new_group">Create new group</string>
+    <string name="group_name">Group name</string>
+    <string name="discoverable">Discoverable</string>
+    <string name="group_introduction">Group introduction</string>
+    <string name="create">Create</string>
+    <string name="create_group_dialog_title">Create a group</string>
 </resources>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/chat_this_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintBottom_toBottomOf=""
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/chat_this_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/chat_this_style"
+            android:maxWidth="250dp"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            tools:visibility="gone" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/chat_this_pic_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            app:strokeColor="?attr/colorPrimaryContainer">
+
+            <ImageView
+                android:id="@+id/chat_this_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:minWidth="100dp"
+                android:minHeight="55sp"
+                android:src="@drawable/ic_launcher_background" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/chat_this_photo"
+                android:layout_width="55sp"
+                android:layout_height="55sp"
+                android:layout_centerInParent="true"
+                tools:src="@drawable/icon_circle_primary" />
+
+            <TextView
+                android:id="@+id/contact_this_photo_text"
+                android:layout_width="40sp"
+                android:layout_height="44sp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="30sp"
+                tools:text="🫤李" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chat_that_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintBottom_toBottomOf=""
+        tools:layout_constraintTop_toBottomOf="@id/chat_this_layout"
+        tools:layout_constraintTop_toTopOf=""
+        tools:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/chat_that_photo"
+                android:layout_width="55sp"
+                android:layout_height="55dp"
+                android:layout_centerInParent="true"
+                tools:src="@drawable/icon_circle_tertiary" />
+
+            <TextView
+                android:id="@+id/contact_that_photo_text"
+                android:layout_width="40sp"
+                android:layout_height="44sp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="30sp"
+                tools:text="🤔" />
+        </RelativeLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/chat_that_pic_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            app:strokeColor="?attr/colorTertiaryContainer">
+
+            <ImageView
+                android:id="@+id/chat_that_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:minWidth="100dp"
+                android:minHeight="55sp"
+                android:src="@drawable/ic_launcher_background" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/chat_that_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/chat_that_style"
+            android:maxWidth="250dp"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            tools:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/chat_system_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/textview_style_secondary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_toBottomOf="@id/chat_that_layout"
+        tools:layout_constraintTop_toTopOf=""
+        tools:text="李山水 已加入群组"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

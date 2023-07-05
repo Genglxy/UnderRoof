@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/conversation_photo"
+        android:layout_width="55sp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/icon_circle_primary" />
+
+    <TextView
+        android:id="@+id/conversation_photo_text"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:gravity="center"
+        android:layout_marginBottom="3dp"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/conversation_photo"
+        app:layout_constraintLeft_toLeftOf="@id/conversation_photo"
+        app:layout_constraintRight_toRightOf="@id/conversation_photo"
+        app:layout_constraintTop_toTopOf="@id/conversation_photo"
+        tools:text="随" />
+
+    <TextView
+        android:id="@+id/conversation_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:text="随便什么群名"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@id/conversation_photo"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/conversation_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="还没有消息"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/conversation_photo"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/conversation_name" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
