@@ -2,17 +2,24 @@ package com.genglxy.underroof
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.genglxy.underroof.databinding.ActivityMainBinding
+import com.genglxy.underroof.ui.home.HomeFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(navController.graph)
         )
         Log.d("MainActivity", "${AppBarConfiguration(navController.graph).topLevelDestinations}")
-        binding.topAppBar.menu
+        //binding.topAppBar.menu
+        setSupportActionBar(binding.topAppBar)
 
         //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
