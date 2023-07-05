@@ -34,7 +34,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_contact, R.id.navigation_user
             )
         )
-        binding.topAppBar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
+        binding.topAppBarLayout.setupWithNavController(
+            binding.topAppBar,
+            navController,
+            AppBarConfiguration(navController.graph)
+        )
         Log.d("MainActivity", "${AppBarConfiguration(navController.graph).topLevelDestinations}")
         binding.topAppBar.menu
 
