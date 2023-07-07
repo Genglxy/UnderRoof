@@ -248,7 +248,7 @@ class HomeFragment : Fragment() {
                                             broadcastBinder.sendParcelable(
                                                 InetAddress.getByName(user.ip),
                                                 message,
-                                                SocketService.TYPE_MESSAGE, 15, true
+                                                SocketService.TYPE_MESSAGE, 15, false
                                             )
                                         }
                                     }

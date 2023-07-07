@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.genglxy.underroof.R
 import com.genglxy.underroof.databinding.FragmentUserBinding
 import com.genglxy.underroof.logic.UserRepository
 import com.genglxy.underroof.logic.model.User
+import com.genglxy.underroof.ui.home.HomeFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -63,20 +65,52 @@ class UserFragment : Fragment() {
                             User.GENDER_FEMALE -> {
                                 "♀"
                             }
+
                             User.GENDER_MALE -> {
                                 "♂"
                             }
+
                             else -> {
                                 "?"
                             }
                         }
                     binding.userStatus.text = "$statusEmoji $statusText"
                     binding.userIntroduction.text = introduction
+                    if (statusEmoji == "" && statusText == "") {
+                        binding.userStatus.text = getString(R.string.no_status)
+                    } else {
+                        binding.userStatus.text = "$statusEmoji $statusText"
+                    }
+                    binding.userStatus.setOnClickListener {
+                        findNavController().navigate(UserFragmentDirections.changeStatus(viewModel.master!!))
+                    }
+                    /*
+                    if ((System.currentTimeMillis() - statusCreate) > 86400000) {
+                        binding.userStatus.background =
+                    }
+
+                     */
                 }
             }
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val job = Job()
+        val scope = CoroutineScope(job)
+        scope.launch {
+            viewModel.master = userRepository.getUser(viewModel.masterUUID!!)
+            withContext(Dispatchers.Main) {
+                if (viewModel.master!!.statusEmoji == "" && viewModel.master!!.statusText == "") {
+                    binding.userStatus.text = getString(R.string.no_status)
+                } else {
+                    binding.userStatus.text = "${viewModel.master!!.statusEmoji} ${viewModel.master!!.statusText}"
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

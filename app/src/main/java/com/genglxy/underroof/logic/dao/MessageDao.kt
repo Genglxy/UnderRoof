@@ -22,6 +22,9 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE id=(:id)")
     suspend fun getMessage(id: UUID): Message
 
+    @Query("SELECT * FROM message WHERE id=(:id)")
+    suspend fun checkMessage(id: UUID): Message?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMessage(message: Message)
 }

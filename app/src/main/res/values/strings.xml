@@ -27,4 +27,9 @@
     <string name="ok">OK</string>
     <string name="no_master">You appear to have no personal information, please click the button below.</string>
     <string name="personal_introduction">Personal Introduction</string>
+    <string name="name_hint">Some people say that the first word of the name is emoji can have an avatar.</string>
+    <string name="no_status">What\'s the mood?</string>
+    <string name="status_title">How are you feeling today?</string>
+    <string name="emoji">Enter an emoji</string>
+    <string name="status_text_hint">What you want to say</string>
 </resources>

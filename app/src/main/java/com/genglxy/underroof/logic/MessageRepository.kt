@@ -36,6 +36,9 @@ class MessageRepository private constructor(context: Context) {
     suspend fun getMessage(id: UUID): Message =
         database.messageDao().getMessage(id)
 
+    suspend fun checkMessage(id: UUID): Message? =
+        database.messageDao().checkMessage(id)
+
     companion object {
         private var INSTANCE: MessageRepository? = null
 

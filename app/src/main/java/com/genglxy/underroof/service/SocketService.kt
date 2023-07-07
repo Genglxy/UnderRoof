@@ -345,7 +345,7 @@ class SocketService : Service() {
                                                 BroadcastBinder().sendParcelable(
                                                     InetAddress.getByName(
                                                         receiveAddress
-                                                    ), it.toUserLite(), TYPE_USER, 15, true
+                                                    ), it.toUserLite(), TYPE_USER, 15, false
                                                 )
                                             }/*
                                         while (messageQueue.contains(thisUUID)) {
@@ -411,77 +411,81 @@ class SocketService : Service() {
                                             val message = ParcelableUtil.unmarshall(
                                                 packet.data, parcelableCreator<Message>()
                                             )
+                                            val check: Message? =
+                                                messageRepository.checkMessage(message.id)
 
-                                            Log.d(
-                                                "message", "TYPE_MESSAGE receive message $message"
-                                            )
-                                            when (message.type) {
-                                                Message.TYPE_SYSTEM -> {
-                                                    Log.d(
-                                                        "message",
-                                                        "TYPE_SYSTEM receive message $message"
-                                                    )
-                                                    when (message.subType) {
-                                                        Message.SUBTYPE_RECEIVED -> {
-                                                            Log.d(
-                                                                "message",
-                                                                "SUBTYPE_RECEIVED receive message $message"
-                                                            )
-                                                            messageQueue.remove(
-                                                                UUID.fromString(
-                                                                    message.content
+                                            if (check == null) {
+                                                Log.d(
+                                                    "message",
+                                                    "TYPE_MESSAGE receive message $message"
+                                                )
+                                                when (message.type) {
+                                                    Message.TYPE_SYSTEM -> {
+                                                        Log.d(
+                                                            "message",
+                                                            "TYPE_SYSTEM receive message $message"
+                                                        )
+                                                        when (message.subType) {
+                                                            Message.SUBTYPE_RECEIVED -> {
+                                                                Log.d(
+                                                                    "message",
+                                                                    "SUBTYPE_RECEIVED receive message $message"
                                                                 )
-                                                            )
-                                                        }
-
-                                                        Message.SUBTYPE_GROUP_QUERY -> {
-                                                            Log.d(
-                                                                "message",
-                                                                "SUBTYPE_GROUP_QUERY receive message $message"
-                                                            )
-                                                            val groups =
-                                                                conversationRepository.getExposedConversations()
-                                                            for (group in groups) {
-                                                                BroadcastBinder().sendParcelable(
-                                                                    InetAddress.getByName(
-                                                                        receiveAddress
-                                                                    ),
-                                                                    group.toConversationLite(),
-                                                                    TYPE_CONVERSATION,
-                                                                    15,
-                                                                    true
+                                                                messageQueue.remove(
+                                                                    UUID.fromString(
+                                                                        message.content
+                                                                    )
                                                                 )
                                                             }
-                                                        }
 
-                                                        Message.SUBTYPE_JOIN -> {
-                                                            Log.d(
-                                                                "message",
-                                                                "SUBTYPE_JOIN receive message $message"
-                                                            )
-                                                            val conversation =
-                                                                conversationRepository.getConversation(
-                                                                    message.conversation
+                                                            Message.SUBTYPE_GROUP_QUERY -> {
+                                                                Log.d(
+                                                                    "message",
+                                                                    "SUBTYPE_GROUP_QUERY receive message $message"
                                                                 )
-                                                            val newMembers =
-                                                                "${conversation.members},${message.from}"
-                                                            conversation.apply {
-                                                                val newGroup = Conversation(
-                                                                    id,
-                                                                    photo,
-                                                                    photoThumbnail,
-                                                                    name,
-                                                                    type,
-                                                                    exposed,
-                                                                    joined,
-                                                                    introduction,
-                                                                    newMembers
+                                                                val groups =
+                                                                    conversationRepository.getExposedConversations()
+                                                                for (group in groups) {
+                                                                    BroadcastBinder().sendParcelable(
+                                                                        InetAddress.getByName(
+                                                                            receiveAddress
+                                                                        ),
+                                                                        group.toConversationLite(),
+                                                                        TYPE_CONVERSATION,
+                                                                        15,
+                                                                        true
+                                                                    )
+                                                                }
+                                                            }
+
+                                                            Message.SUBTYPE_JOIN -> {
+                                                                Log.d(
+                                                                    "message",
+                                                                    "SUBTYPE_JOIN receive message $message"
                                                                 )
-                                                                conversationRepository.addConversation(
-                                                                    newGroup
-                                                                )
-                                                                Log.d("qazxsw", "message added")
-                                                                messageRepository.addMessage(message)/*
+                                                                val conversation =
+                                                                    conversationRepository.getConversation(
+                                                                        message.conversation
+                                                                    )
+                                                                val newMembers =
+                                                                    "${conversation.members},${message.from}"
+                                                                conversation.apply {
+                                                                    val newGroup = Conversation(
+                                                                        id,
+                                                                        photo,
+                                                                        photoThumbnail,
+                                                                        name,
+                                                                        type,
+                                                                        exposed,
+                                                                        joined,
+                                                                        introduction,
+                                                                        newMembers
+                                                                    )
+                                                                    conversationRepository.addConversation(
+                                                                        newGroup
+                                                                    )
+                                                                    Log.d("qazxsw", "message added")
+                                                                    /*
                                                                 val messages : MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
                                                                     messageRepository.getMessages().collect {
                                                                     messages.value = it
@@ -489,110 +493,116 @@ class SocketService : Service() {
                                                                 }
 
                                                                  */
+                                                                }
                                                             }
-                                                        }
 
-                                                        Message.SUBTYPE_TCP_READY -> {
-                                                            val id =
-                                                                UUID.fromString(message.content)
-                                                            val file = fileRepository.getFile(id)
-                                                            val user = userRepository.getUser(
-                                                                receiveAddress
-                                                            )
-                                                            if (user != null) {
-                                                                BroadcastBinder().sendFile(
-                                                                    file.uri, user.ip
-                                                                )
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                Message.TYPE_MESSAGE -> {
-                                                    Log.d(
-                                                        "message",
-                                                        "TYPE_MESSAGE receive message $message"
-                                                    )
-                                                    when (message.subType) {
-                                                        Message.SUBTYPE_TEXT -> {
-                                                            Log.d(
-                                                                "message",
-                                                                "SUBTYPE_TEXT receive message $message"
-                                                            )
-                                                            replyMessage(message.id, receiveAddress)
-                                                            messageRepository.addMessage(message)
-                                                            //TODO("文本消息类，直接写入数据库")
-                                                        }
-                                                    }
-                                                }
-
-                                                Message.TYPE_FILE -> {
-                                                    Log.d(
-                                                        "message",
-                                                        "TYPE_MESSAGE receive message $message"
-                                                    )
-                                                    when (message.subType) {
-                                                        Message.SUBTYPE_TEXT -> {
-
-                                                            //TODO("文本消息类，直接写入数据库")
-                                                        }
-
-                                                        Message.SUBTYPE_IMAGE -> {
-                                                            Log.d(
-                                                                "message",
-                                                                "SUBTYPE_IMAGE receive message $message"
-                                                            )
-                                                            val id =
-                                                                UUID.fromString(message.content)
-                                                            //BroadcastBinder().receiveFile(id)
-                                                            Log.d("tcp", "tcp service has open")
-                                                            val replyMessage = Message(
-                                                                UUID.randomUUID(),
-                                                                Message.TYPE_SYSTEM,
-                                                                Message.SUBTYPE_TCP_READY,
-                                                                masterUUID,
-                                                                UUID.fromString(
-                                                                    getString(
-                                                                        R.string.SYSTEM_MESSAGE_UUID
-                                                                    )
-                                                                ),
-                                                                message.content,
-                                                                System.currentTimeMillis()
-                                                            )
-                                                            BroadcastBinder().sendParcelable(
-                                                                InetAddress.getByName(
+                                                            Message.SUBTYPE_TCP_READY -> {
+                                                                val id =
+                                                                    UUID.fromString(message.content)
+                                                                val file =
+                                                                    fileRepository.getFile(id)
+                                                                val user = userRepository.getUser(
                                                                     receiveAddress
-                                                                ),
-                                                                replyMessage,
-                                                                TYPE_MESSAGE,
-                                                                15,
-                                                                true
-                                                            )
-                                                            val extension = "png"
-                                                            val fileName = "$id.$extension"
-                                                            val pathName =
-                                                                "${application.externalCacheDir}${File.separator}"
-                                                            val path = File("$pathName$fileName")
-                                                            val uri = Uri.fromFile(path)
-                                                            fileRepository.addFile(
-                                                                com.genglxy.underroof.logic.model.File(
-                                                                    id,
-                                                                    uri,
-                                                                    com.genglxy.underroof.logic.model.File.TYPE_IMAGE
                                                                 )
-                                                            )
-                                                            delay(100)
-                                                            messageRepository.addMessage(message)
-                                                            BroadcastBinder().receiveFile(uri)
-                                                            //TODO("图片类，写入数据库，调用TCP请求图片，请求完成显示")
+                                                                if (user != null) {
+                                                                    BroadcastBinder().sendFile(
+                                                                        file.uri, user.ip
+                                                                    )
+                                                                }
+                                                            }
                                                         }
+                                                    }
 
-                                                        Message.SUBTYPE_FILE -> {
-                                                            //TODO("文件类，暂不实现")
+                                                    Message.TYPE_MESSAGE -> {
+                                                        Log.d(
+                                                            "message",
+                                                            "TYPE_MESSAGE receive message $message"
+                                                        )
+                                                        when (message.subType) {
+                                                            Message.SUBTYPE_TEXT -> {
+                                                                Log.d(
+                                                                    "message",
+                                                                    "SUBTYPE_TEXT receive message $message"
+                                                                )
+                                                                replyMessage(
+                                                                    message.id,
+                                                                    receiveAddress
+                                                                )
+                                                                //TODO("文本消息类，直接写入数据库")
+                                                            }
+                                                        }
+                                                    }
+
+                                                    Message.TYPE_FILE -> {
+                                                        Log.d(
+                                                            "message",
+                                                            "TYPE_MESSAGE receive message $message"
+                                                        )
+                                                        when (message.subType) {
+                                                            Message.SUBTYPE_TEXT -> {
+
+                                                                //TODO("文本消息类，直接写入数据库")
+                                                            }
+
+                                                            Message.SUBTYPE_IMAGE -> {
+                                                                Log.d(
+                                                                    "message",
+                                                                    "SUBTYPE_IMAGE receive message $message"
+                                                                )
+                                                                val id =
+                                                                    UUID.fromString(message.content)
+                                                                //BroadcastBinder().receiveFile(id)
+                                                                Log.d("tcp", "tcp service has open")
+                                                                val replyMessage = Message(
+                                                                    UUID.randomUUID(),
+                                                                    Message.TYPE_SYSTEM,
+                                                                    Message.SUBTYPE_TCP_READY,
+                                                                    masterUUID,
+                                                                    UUID.fromString(
+                                                                        getString(
+                                                                            R.string.SYSTEM_MESSAGE_UUID
+                                                                        )
+                                                                    ),
+                                                                    message.content,
+                                                                    System.currentTimeMillis()
+                                                                )
+                                                                BroadcastBinder().sendParcelable(
+                                                                    InetAddress.getByName(
+                                                                        receiveAddress
+                                                                    ),
+                                                                    replyMessage,
+                                                                    TYPE_MESSAGE,
+                                                                    15,
+                                                                    true
+                                                                )
+                                                                val extension = "png"
+                                                                val fileName = "$id.$extension"
+                                                                val pathName =
+                                                                    "${application.externalCacheDir}${File.separator}"
+                                                                val path =
+                                                                    File("$pathName$fileName")
+                                                                val uri = Uri.fromFile(path)
+                                                                fileRepository.addFile(
+                                                                    com.genglxy.underroof.logic.model.File(
+                                                                        id,
+                                                                        uri,
+                                                                        com.genglxy.underroof.logic.model.File.TYPE_IMAGE
+                                                                    )
+                                                                )
+                                                                delay(100)
+                                                                BroadcastBinder().receiveFile(uri)
+                                                                //TODO("图片类，写入数据库，调用TCP请求图片，请求完成显示")
+                                                            }
+
+                                                            Message.SUBTYPE_FILE -> {
+                                                                //TODO("文件类，暂不实现")
+                                                            }
                                                         }
                                                     }
                                                 }
+                                                messageRepository.addMessage(message)
                                             }
+
                                         }
 
                                         TYPE_CONVERSATION -> {

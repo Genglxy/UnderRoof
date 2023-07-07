@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_navigation_user_to_wizardDialog"
             app:destination="@id/wizardDialog" />
+        <action
+            android:id="@+id/change_status"
+            app:destination="@id/statusDialog" />
     </fragment>
     <dialog
         android:id="@+id/createGroupDialog"
@@ -54,4 +57,13 @@
             android:name="id"
             app:argType="java.util.UUID" />
     </activity>
+    <dialog
+        android:id="@+id/statusDialog"
+        android:name="com.genglxy.underroof.ui.user.StatusDialog"
+        tools:layout="@layout/dialog_status"
+        android:label="StatusDialog" >
+        <argument
+            android:name="master"
+            app:argType="com.genglxy.underroof.logic.model.User" />
+    </dialog>
 </navigation>
