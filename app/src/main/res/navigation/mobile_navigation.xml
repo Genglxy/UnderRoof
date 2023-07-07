@@ -13,6 +13,12 @@
         <action
             android:id="@+id/openCreateGroupDialog"
             app:destination="@id/createGroupDialog" />
+        <action
+            android:id="@+id/openWizardDialog"
+            app:destination="@id/wizardDialog" />
+        <action
+            android:id="@+id/openChatActivity"
+            app:destination="@id/chatActivity" />
     </fragment>
 
     <fragment
@@ -25,10 +31,27 @@
         android:id="@+id/navigation_user"
         android:name="com.genglxy.underroof.ui.user.UserFragment"
         android:label="@string/title_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_navigation_user_to_wizardDialog"
+            app:destination="@id/wizardDialog" />
+    </fragment>
     <dialog
         android:id="@+id/createGroupDialog"
         android:name="com.genglxy.underroof.ui.home.CreateGroupDialog"
         android:label="CreateGroupDialog"
         tools:layout="@layout/dialog_create_group" />
+    <dialog
+        android:id="@+id/wizardDialog"
+        android:name="com.genglxy.underroof.ui.home.WizardDialog"
+        tools:layout="@layout/dialog_wizard"
+        android:label="WizardDialog" />
+    <activity
+        android:id="@+id/chatActivity"
+        android:name="com.genglxy.underroof.ui.chat.ChatActivity"
+        android:label="ChatActivity" >
+        <argument
+            android:name="id"
+            app:argType="java.util.UUID" />
+    </activity>
 </navigation>

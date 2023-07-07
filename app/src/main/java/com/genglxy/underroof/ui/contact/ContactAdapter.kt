@@ -2,6 +2,7 @@ package com.genglxy.underroof.ui.contact
 
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class ContactAdapter(val contactFragment: Fragment, private val list: List<User>
                     binding.contactPhotoText.text = contact.name
                 }
             }
+            binding.online.visibility = if(contact.online) View.VISIBLE else View.GONE
             binding.contactName.text = contact.name
         }
     }

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">UnderRoof</string>
+    <string name="SYSTEM_MESSAGE_UUID">a3d4860d-069f-40cf-a842-6310a0dc2da2</string>
+
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -16,4 +18,13 @@
     <string name="group_introduction">Group introduction</string>
     <string name="create">Create</string>
     <string name="create_group_dialog_title">Create a group</string>
+    <string name="wizard_dialog_title">Wizard</string>
+    <string name="your_name">Your name</string>
+    <string name="your_introduction">Your introduction</string>
+    <string name="male">Male</string>
+    <string name="_private">Private</string>
+    <string name="age">Age</string>
+    <string name="ok">OK</string>
+    <string name="no_master">You appear to have no personal information, please click the button below.</string>
+    <string name="personal_introduction">Personal Introduction</string>
 </resources>

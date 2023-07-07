@@ -22,8 +22,8 @@
         android:id="@+id/conversation_photo_text"
         android:layout_width="40sp"
         android:layout_height="40sp"
-        android:gravity="center"
         android:layout_marginBottom="3dp"
+        android:gravity="center"
         android:textColor="?attr/colorOnPrimaryContainer"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="@id/conversation_photo"
@@ -38,12 +38,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         android:text="随便什么群名"
         android:textColor="?attr/colorOnSurface"
         android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@id/conversation_photo"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/locked_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -52,14 +52,36 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:text="还没有消息"
         android:textColor="?attr/colorOnSurfaceVariant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/conversation_photo"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/locked_icon"
         app:layout_constraintTop_toBottomOf="@id/conversation_name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/join_group"
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        app:icon="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/locked_icon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_lock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/join_group"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

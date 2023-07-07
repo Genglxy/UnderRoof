@@ -22,10 +22,13 @@
             android:id="@+id/chat_this_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="left"
             android:layout_marginRight="8dp"
             android:background="@drawable/chat_this_style"
+            android:gravity="left|center_vertical"
             android:maxWidth="250dp"
+            android:minWidth="55sp"
+            android:minHeight="55sp"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             tools:visibility="gone" />
 
@@ -56,10 +59,10 @@
                 android:layout_width="55sp"
                 android:layout_height="55sp"
                 android:layout_centerInParent="true"
-                tools:src="@drawable/icon_circle_primary" />
+                android:src="@drawable/icon_circle_primary" />
 
             <TextView
-                android:id="@+id/contact_this_photo_text"
+                android:id="@+id/chat_this_photo_text"
                 android:layout_width="40sp"
                 android:layout_height="44sp"
                 android:layout_centerInParent="true"
@@ -95,10 +98,10 @@
                 android:layout_width="55sp"
                 android:layout_height="55dp"
                 android:layout_centerInParent="true"
-                tools:src="@drawable/icon_circle_tertiary" />
+                android:src="@drawable/icon_circle_tertiary" />
 
             <TextView
-                android:id="@+id/contact_that_photo_text"
+                android:id="@+id/chat_that_photo_text"
                 android:layout_width="40sp"
                 android:layout_height="44sp"
                 android:layout_centerInParent="true"
@@ -114,13 +117,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            app:strokeColor="?attr/colorTertiaryContainer">
+            app:strokeColor="?attr/colorTertiaryContainer"
+            tools:visibility="gone">
 
             <ImageView
                 android:id="@+id/chat_that_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="250dp"
+                android:maxHeight="500dp"
                 android:minWidth="100dp"
                 android:minHeight="55sp"
                 android:src="@drawable/ic_launcher_background" />
@@ -131,12 +136,14 @@
             android:id="@+id/chat_that_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="left"
             android:layout_marginLeft="8dp"
             android:background="@drawable/chat_that_style"
+            android:gravity="left|center_vertical"
             android:maxWidth="250dp"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            tools:visibility="gone" />
+            android:minWidth="55sp"
+            android:minHeight="55sp"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
     </LinearLayout>
 

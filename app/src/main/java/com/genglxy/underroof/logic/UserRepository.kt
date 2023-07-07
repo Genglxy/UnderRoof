@@ -19,13 +19,19 @@ class UserRepository private constructor(context: Context){
         )
         .build()
 
-    fun getUsers(): Flow<List<User>> = database.userDao().getUsers()
+    fun getUsersFlow(): Flow<List<User>> = database.userDao().getUsersFlow()
+
+    suspend fun getActiveUsers() = database.userDao().getActiveUsers(true)
+
+    suspend fun getUsers() = database.userDao().getUsers()
 
     suspend fun addUser(user: User) {
         database.userDao().addUser(user)
     }
 
-    suspend fun getUser(id: UUID): User = database.userDao().getUser(id)
+    suspend fun getUser(id: UUID): User? = database.userDao().getUser(id)
+
+    suspend fun getUser(ip: String): User? = database.userDao().getUser(ip)
 
     companion object {
         private var INSTANCE: UserRepository? = null

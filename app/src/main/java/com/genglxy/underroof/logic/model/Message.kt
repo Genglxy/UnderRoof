@@ -25,9 +25,13 @@ data class Message(
         //系统消息子类
         const val SUBTYPE_JOIN = 0
         const val SUBTYPE_QUIT = 1
-        const val SUBTYPE_MESSAGE_GET = 1
+        const val SUBTYPE_RECEIVED = 2 //收到消息回执
+        const val SUBTYPE_ONLINE = 3
+        const val SUBTYPE_OFFLINE = 4
+        const val SUBTYPE_GROUP_QUERY = 5
 
-        //普通消息子类
+
+        //文件消息子类
         const val SUBTYPE_TEXT = 0
         const val SUBTYPE_IMAGE = 1
         const val SUBTYPE_FILE = 2

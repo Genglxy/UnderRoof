@@ -24,4 +24,10 @@ data class Conversation(
         const val TYPE_GROUP = 0
         const val TYPE_PERSON = 1
     }
+
+    fun toConversationLite(): ConversationLite {
+        this.apply {
+            return ConversationLite(id, name, type, exposed, introduction, members)
+        }
+    }
 }

@@ -21,17 +21,17 @@
 
     <TextView
         android:id="@+id/user_photo_text"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
+        android:layout_width="65sp"
+        android:layout_height="65sp"
         android:layout_marginBottom="3sp"
         android:gravity="center"
         android:textColor="?attr/colorOnPrimaryContainer"
-        android:textSize="40sp"
+        android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="@id/user_photo"
         app:layout_constraintLeft_toLeftOf="@id/user_photo"
         app:layout_constraintRight_toRightOf="@id/user_photo"
         app:layout_constraintTop_toTopOf="@id/user_photo"
-        tools:text="李" />
+        tools:text="😀🥓李" />
 
     <LinearLayout
         android:id="@+id/user_base"
@@ -96,10 +96,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textSize="24dp"
+                android:textSize="24sp"
+                android:text="@string/personal_introduction"
                 tools:text="个人介绍" />
 
             <TextView
+                android:id="@+id/user_introduction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="随便说点什么吧"
