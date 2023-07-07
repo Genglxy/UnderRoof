@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.genglxy.underroof.R
 import com.genglxy.underroof.databinding.ItemChatBinding
+import com.genglxy.underroof.logic.FileRepository
 import com.genglxy.underroof.logic.UserRepository
 import com.genglxy.underroof.logic.model.Message
 import com.genglxy.underroof.logic.model.User
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
-class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
+class ChatAdapter(val chatFragment: Fragment, val list: List<Message>, val imageClicked: (id: UUID) -> Unit) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     companion object {
@@ -32,6 +33,7 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
     }
 
     private val userRepository = UserRepository.get()
+    private val fileRepository = FileRepository.get()
     var masterUUID: UUID? = null
 
     inner class ViewHolder(private val binding: ItemChatBinding) :
@@ -45,6 +47,12 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
                 else -> FROM_FRIEND
             }
             showMessageLayout(from, message.subType)
+            binding.chatThisPic.setOnClickListener {
+                imageClicked(UUID.fromString(message.content))
+            }
+            binding.chatThatPic.setOnClickListener {
+                imageClicked(UUID.fromString(message.content))
+            }
             when (from) {
                 FROM_SYSTEM -> {
                     when (message.subType) {
@@ -105,8 +113,17 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
                                 }
 
                                 Message.SUBTYPE_IMAGE -> {
-                                    //binding.chatThisPic.  TODO("此处插入图片")
-                                    //TODO("读取图片放入")
+                                    val job = Job()
+                                    val scope = CoroutineScope(job)
+                                    scope.launch {
+                                        val file =
+                                            fileRepository.getFile(UUID.fromString(message.content))
+                                        withContext(Dispatchers.Main) {
+                                            Glide.with(chatFragment).load(file.uri)
+                                                .into(binding.chatThisPic)
+                                        }//binding.chatThisPic.  TODO("此处插入图片")
+                                        //TODO("读取图片放入")
+                                    }
                                 }
 
                                 Message.SUBTYPE_FILE -> {
@@ -146,8 +163,18 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
                                 }
 
                                 Message.SUBTYPE_IMAGE -> {
-                                    //binding.chatThisPic.  TODO("此处插入图片")
-                                    //TODO("读取图片放入")
+                                    val job = Job()
+                                    val scope = CoroutineScope(job)
+                                    scope.launch {
+                                        val file =
+                                            fileRepository.getFile(UUID.fromString(message.content))
+                                        withContext(Dispatchers.Main) {
+                                            Glide.with(chatFragment).load(file.uri)
+                                                .into(binding.chatThatPic)
+                                        }
+                                        //binding.chatThisPic.  TODO("此处插入图片")
+                                        //TODO("读取图片放入")
+                                    }
                                 }
 
                                 Message.SUBTYPE_FILE -> {
@@ -157,8 +184,7 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
                         }
                     }
                 }
-            }
-            /*
+            }/*
             val job = Job()
             val scope = CoroutineScope(job)
             scope.launch {
@@ -271,7 +297,7 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
             true,
             ""
         )
-        var master:User? = User(
+        var master: User? = User(
             masterUUID!!,
             Uri.EMPTY,
             Uri.EMPTY,
@@ -295,30 +321,28 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
             Log.d("chatAdapterInfo", "3, ${message.from}")
 
             user = userRepository.getUser(message.from)
-            if (user == null)
-                user = User(
-                    masterUUID!!,
-                    Uri.EMPTY,
-                    Uri.EMPTY,
-                    "? Unknown",
-                    0,
-                    false,
-                    15,
-                    false,
-                    "😀",
-                    "开心",
-                    0,
-                    "Unknown",
-                    true,
-                    ""
-                )
+            if (user == null) user = User(
+                masterUUID!!,
+                Uri.EMPTY,
+                Uri.EMPTY,
+                "? Unknown",
+                0,
+                false,
+                15,
+                false,
+                "😀",
+                "开心",
+                0,
+                "Unknown",
+                true,
+                ""
+            )
 
 
-        Log.d("chatAdapterInfo", "4")
-        Log.d("chatAdapterInfo", "5")
-        master = userRepository.getUser(masterUUID!!)
-        if (master == null)
-            master = User(
+            Log.d("chatAdapterInfo", "4")
+            Log.d("chatAdapterInfo", "5")
+            master = userRepository.getUser(masterUUID!!)
+            if (master == null) master = User(
                 masterUUID!!,
                 Uri.EMPTY,
                 Uri.EMPTY,
@@ -334,16 +358,16 @@ class ChatAdapter(val chatFragment: Fragment, val list: List<Message>) :
                 true,
                 ""
             )
-        Log.d("chatAdapterInfo", "6")
-        withContext(Dispatchers.Main) {
-            Log.d("chatAdapterInfo", "7")
-            holder.bind(message, user!!, master!!)
-            Log.d("chatAdapterInfo", "8")
+            Log.d("chatAdapterInfo", "6")
+            withContext(Dispatchers.Main) {
+                Log.d("chatAdapterInfo", "7")
+                holder.bind(message, user!!, master!!)
+                Log.d("chatAdapterInfo", "8")
+            }
         }
     }
-}
 
-override fun getItemCount() = list.size
+    override fun getItemCount() = list.size
 
 
 }

@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         binding.homeRecycler.layoutManager = layoutManager
         binding.createMasterBtn.setOnClickListener {
-            findNavController().navigate(R.id.openWizardDialog)
+            findNavController().navigate(HomeFragmentDirections.openWizardDialog())
         }
 
         //adapter = HomeAdapter(this, temp)
@@ -200,7 +200,7 @@ class HomeFragment : Fragment() {
                     }
 
                     R.id.home_create_group -> {
-                        findNavController().navigate(R.id.openCreateGroupDialog)
+                        findNavController().navigate(HomeFragmentDirections.openCreateGroupDialog())
                         true
                     }
 

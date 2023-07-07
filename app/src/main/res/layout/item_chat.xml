@@ -41,11 +41,12 @@
 
             <ImageView
                 android:id="@+id/chat_this_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:maxWidth="250dp"
                 android:minWidth="100dp"
                 android:minHeight="55sp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -122,8 +123,9 @@
 
             <ImageView
                 android:id="@+id/chat_that_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
                 android:maxWidth="250dp"
                 android:maxHeight="500dp"
                 android:minWidth="100dp"

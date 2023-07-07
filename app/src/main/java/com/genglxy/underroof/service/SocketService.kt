@@ -22,6 +22,7 @@ import com.genglxy.underroof.MainActivity
 import com.genglxy.underroof.R
 import com.genglxy.underroof.UnderRoofApplication
 import com.genglxy.underroof.logic.ConversationRepository
+import com.genglxy.underroof.logic.FileRepository
 import com.genglxy.underroof.logic.MessageRepository
 import com.genglxy.underroof.logic.UserRepository
 import com.genglxy.underroof.logic.model.Conversation
@@ -65,6 +66,7 @@ class SocketService : Service() {
     private val userRepository = UserRepository.get()
     private val messageRepository = MessageRepository.get()
     private val conversationRepository = ConversationRepository.get()
+    private val fileRepository = FileRepository.get()
     private var messageQueue = mutableListOf<UUID>()
     private lateinit var masterUUID: UUID
     private lateinit var localIp: String
@@ -163,17 +165,20 @@ class SocketService : Service() {
         }
 
         fun sendFile(uri: Uri, address: String) {
-
+            Log.d("tcp", "sendService created")
             val job = Job()
             val scope = CoroutineScope(job)
             val client = Socket(address, tcpPort)
+            Log.d("tcp", "sendService created1")
             scope.launch {
                 try {
+                    Log.d("tcp", "sendService created2")
                     val out: OutputStream = client.getOutputStream()
                     val cr = applicationContext.contentResolver
                     val inputStream: InputStream? = cr.openInputStream(uri)
 //            val fileInputStream = FileInputStream(File(url))
                     var len = 0
+                    Log.d("tcp", "sendService created3")
                     //窗口值大小
                     val buffer = ByteArray(10240)
                     var total: Long = 0
@@ -207,7 +212,7 @@ class SocketService : Service() {
             }
         }
 
-        fun receiveFile(id: UUID) {
+        fun receiveFile(uri: Uri) {
             val serverSocket = ServerSocket(tcpPort)
             val connect = serverSocket.accept()
             val job = Job()
@@ -219,14 +224,6 @@ class SocketService : Service() {
                         //连接socket
 
                         Log.e("TcpServerService", "已成功启动TcpServer")
-                        //Log.e("TcpServerService", "路径为$uri")
-
-                        val extension = "png"
-                        val fileName = "$id.$extension"
-                        val pathName = "${application.externalCacheDir}${File.separator}"
-                        val path =
-                            File("$pathName$fileName")
-                        val uri = Uri.fromFile(path)
                         //打开文件
                         val f = File(uri.path!!)
                         val dirs = File(f.parent!!)
@@ -348,11 +345,7 @@ class SocketService : Service() {
                                                 BroadcastBinder().sendParcelable(
                                                     InetAddress.getByName(
                                                         receiveAddress
-                                                    ),
-                                                    it.toUserLite(),
-                                                    TYPE_USER,
-                                                    15,
-                                                    true
+                                                    ), it.toUserLite(), TYPE_USER, 15, true
                                                 )
                                             }/*
                                         while (messageQueue.contains(thisUUID)) {
@@ -455,7 +448,8 @@ class SocketService : Service() {
                                                                     ),
                                                                     group.toConversationLite(),
                                                                     TYPE_CONVERSATION,
-                                                                    15, true
+                                                                    15,
+                                                                    true
                                                                 )
                                                             }
                                                         }
@@ -497,6 +491,20 @@ class SocketService : Service() {
                                                                  */
                                                             }
                                                         }
+
+                                                        Message.SUBTYPE_TCP_READY -> {
+                                                            val id =
+                                                                UUID.fromString(message.content)
+                                                            val file = fileRepository.getFile(id)
+                                                            val user = userRepository.getUser(
+                                                                receiveAddress
+                                                            )
+                                                            if (user != null) {
+                                                                BroadcastBinder().sendFile(
+                                                                    file.uri, user.ip
+                                                                )
+                                                            }
+                                                        }
                                                     }
                                                 }
 
@@ -536,7 +544,46 @@ class SocketService : Service() {
                                                             )
                                                             val id =
                                                                 UUID.fromString(message.content)
-                                                            BroadcastBinder().receiveFile(id)
+                                                            //BroadcastBinder().receiveFile(id)
+                                                            Log.d("tcp", "tcp service has open")
+                                                            val replyMessage = Message(
+                                                                UUID.randomUUID(),
+                                                                Message.TYPE_SYSTEM,
+                                                                Message.SUBTYPE_TCP_READY,
+                                                                masterUUID,
+                                                                UUID.fromString(
+                                                                    getString(
+                                                                        R.string.SYSTEM_MESSAGE_UUID
+                                                                    )
+                                                                ),
+                                                                message.content,
+                                                                System.currentTimeMillis()
+                                                            )
+                                                            BroadcastBinder().sendParcelable(
+                                                                InetAddress.getByName(
+                                                                    receiveAddress
+                                                                ),
+                                                                replyMessage,
+                                                                TYPE_MESSAGE,
+                                                                15,
+                                                                true
+                                                            )
+                                                            val extension = "png"
+                                                            val fileName = "$id.$extension"
+                                                            val pathName =
+                                                                "${application.externalCacheDir}${File.separator}"
+                                                            val path = File("$pathName$fileName")
+                                                            val uri = Uri.fromFile(path)
+                                                            fileRepository.addFile(
+                                                                com.genglxy.underroof.logic.model.File(
+                                                                    id,
+                                                                    uri,
+                                                                    com.genglxy.underroof.logic.model.File.TYPE_IMAGE
+                                                                )
+                                                            )
+                                                            delay(100)
+                                                            messageRepository.addMessage(message)
+                                                            BroadcastBinder().receiveFile(uri)
                                                             //TODO("图片类，写入数据库，调用TCP请求图片，请求完成显示")
                                                         }
 

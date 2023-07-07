@@ -29,6 +29,7 @@ data class Message(
         const val SUBTYPE_ONLINE = 3
         const val SUBTYPE_OFFLINE = 4
         const val SUBTYPE_GROUP_QUERY = 5
+        const val SUBTYPE_TCP_READY = 6
 
 
         //文件消息子类

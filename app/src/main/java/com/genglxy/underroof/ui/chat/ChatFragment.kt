@@ -145,7 +145,9 @@ class ChatFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.setConversation()
                 viewModel.messages.observe(viewLifecycleOwner) { messages ->
-                    binding.chatRecycler.adapter = ChatAdapter(requireParentFragment(), messages)
+                    binding.chatRecycler.adapter = ChatAdapter(requireParentFragment(), messages) {
+                        findNavController().navigate(ChatFragmentDirections.openImage(it))
+                    }
                 }
             }
         }
@@ -197,10 +199,10 @@ class ChatFragment : Fragment() {
                 val path = it[0].path
                 val size = it[0].size
                 val id = UUID.randomUUID()
-                var bitmap: Bitmap? = Glide.with(this).asBitmap().load(uri).submit(500, 500).get()
                 val bitmapJob = Job()
                 val bitmapScope = CoroutineScope(bitmapJob)
                 bitmapScope.launch {
+                    var bitmap: Bitmap? = Glide.with(requireParentFragment()).asBitmap().load(uri).submit(500, 500).get()
                     while (true) {
                         if (bitmap == null) {
                             delay(100)
@@ -208,13 +210,14 @@ class ChatFragment : Fragment() {
                             val uri = bitmap2Cache(id, bitmap)
                             val message = Message(
                                 UUID.randomUUID(),
-                                Message.TYPE_MESSAGE,
+                                Message.TYPE_FILE,
                                 Message.SUBTYPE_IMAGE,
                                 viewModel.masterUUID,
                                 viewModel.chatId!!,
                                 id.toString(),
                                 System.currentTimeMillis()
                             )
+                            messageRepository.addMessage(message)
                             val users = userRepository.getUsers()
                             for (user in users) {
                                 if (user.online) {
@@ -225,9 +228,10 @@ class ChatFragment : Fragment() {
                                         15,
                                         true
                                     )
-                                    broadcastBinder.sendFile(uri, user.ip)
+                                    Log.d("tcp", "file send require has send")
                                 }
                             }
+                            break
                         }
                     }
                 }
@@ -319,6 +323,7 @@ class ChatFragment : Fragment() {
                     )
                 )
             }
+            Log.d("tcp0", "file has saved")
             return Uri.fromFile(path)
         } catch (_: Exception) {
         }
